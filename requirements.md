@@ -2,7 +2,8 @@ Project Concept/workflow:
 
 Dependencies: request, yargs
 
-1. set up a static http request to the google location api
+1. set up a static http request to the google location api with basic error handling
+- use url encoding for user CLI input
 2. refactor the static request out of app.js, into geolocation.js
 3. Use and configure yargs to make geolocation api request dynamic
 4. set up static api request to weather.into
