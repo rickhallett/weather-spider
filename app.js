@@ -2,6 +2,7 @@ const yargs = require('yargs');
 const request = require('request');
 
 const geocode = require('./public/geocode.js');
+const weather = require('./public/weather.js');
 
 //object that stores the final passed argument from yargs
 const argv = yargs
@@ -25,17 +26,13 @@ geocode.geocodeAddress(argv.address, (errorMessage, results) => {
   if (errorMessage) {
     console.log(errorMessage);
   } else {
-    console.log(JSON.stringify(results, undefined, 2));
-  }
-});
-
-request({
-  url: `https://api.darksky.net/forecast/ae5b25302ca8eb5eeb9fd45bbdd7c634/39.501601,-75.310036`,
-  json:true
-}, (error, response, body) => {
-  if (!error && response.statusCode === 200) {
-    console.log(body.currently.temperature);
-  } else {
-    console.log('Unable to fetch weather');
+    console.log(`Address: ${JSON.stringify(results.address, undefined, 2)}`);
+    weather.weatherReport(results, (weatherErrorMessage, weatherResults) => {
+      if (weatherErrorMessage) {
+        console.log(weatherErrorMessage);
+      } else {
+        console.log(`Weather report:  ${JSON.stringify(weatherResults, undefined, 2)}`);
+      }
+    });
   }
 });
